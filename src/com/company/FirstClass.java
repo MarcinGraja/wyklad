@@ -1,8 +1,8 @@
 package com.company;
 
 public class FirstClass {
-    protected String Name;
+    protected String name;
     FirstClass(String name) {
-        Name = name;
+        this.name = name;
     }
 }

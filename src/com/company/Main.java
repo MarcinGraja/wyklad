@@ -2,6 +2,7 @@ package com.company;
 import java.io.IOException;
 import java.util.*;
 
+import static com.company.ItemCondition.*;
 import static java.lang.Math.abs;
 
 //tablice, arrayList, Stosy, kolejki, zbiory, iteracja
@@ -73,12 +74,12 @@ public class Main{
         }
         System.in.read();
 
-        Set setA = new HashSet();       //bez gwarancji zachowania kolejności
-        Set setB = new LinkedHashSet(); //bez gwarancji zachowania kolejności
-        Set setC = new TreeSet();       //według kolejności sortowania
+        Set <Integer> setA = new HashSet<>();       //bez gwarancji zachowania kolejności
+        Set <Character> setB = new LinkedHashSet<>(); //bez gwarancji zachowania kolejności
+        Set <Integer> setC = new TreeSet<>();       //według kolejności sortowania
         for (int i=0; i<20; i++){
             setA.add(i%5);
-            setB.add( 'a' + (i%('f'-'a')));
+            setB.add((char) ('a' + (i%('f'-'a'))));
             setC.add(abs(generator.nextInt()%20));
         }
 
@@ -99,11 +100,36 @@ public class Main{
         while (iteratorC.hasNext()){
             System.out.println(iteratorC.next());
         }
+
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nazwij obiekt klasy:");
         String Name = scanner.nextLine();
         SecondClass TestClass = new SecondClass(Name);
         TestClass.print();
+
+        Queue<Item> normalQueue = new LinkedList<>(); //normalna kolejka
+        Queue<Item> priorityQueue = new PriorityQueue<>(new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return o1.compareTo(o2);
+            }
+        });
+
+        normalQueue.add(new Item("żelazko", USED, 1, 3)); //rzuca wyjątkiem
+        normalQueue.add(new Item("pióro", NEW, 0.1, 7));
+        priorityQueue.offer(new Item("pióro", NEW, 0.1, 7)); //zwraca false
+        priorityQueue.offer(new Item("żelazko", USED, 1, 3));
+
+        priorityQueue.element().print(); //rzuca wyjątkiem
+        normalQueue.peek().print(); //zwraca nulla
+
+        while(!normalQueue.isEmpty()){
+            normalQueue.remove().print(); //rzuca wyjątkiem
+        }
+        while(!priorityQueue.isEmpty()){
+            priorityQueue.poll().print(); //zwraca nulla
+        }
 
     }
 }
